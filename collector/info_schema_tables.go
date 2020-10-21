@@ -22,7 +22,6 @@ import (
 	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 const (
@@ -42,21 +41,10 @@ const (
 		  FROM information_schema.tables
 		  WHERE TABLE_SCHEMA = '%s'
 		`
-	dbListQuery = `
-		SELECT
-		    SCHEMA_NAME
-		  FROM information_schema.schemata
-		  WHERE SCHEMA_NAME NOT IN ('mysql', 'performance_schema', 'information_schema')
-		`
 )
 
 // Tunable flags.
-var (
-	tableSchemaDatabases = kingpin.Flag(
-		"collect.info_schema.tables.databases",
-		"The list of databases to collect table stats for, or '*' for all",
-	).Default("*").String()
-)
+var ()
 
 // Metric descriptors.
 var (

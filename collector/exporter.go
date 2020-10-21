@@ -43,6 +43,13 @@ const (
 	// See: https://github.com/go-sql-driver/mysql#system-variables
 	sessionSettingsParam = `log_slow_filter=%27tmp_table_on_disk,filesort_on_disk%27`
 	timeoutParam         = `lock_wait_timeout=%d`
+
+	dbListQuery = `
+		SELECT
+		    SCHEMA_NAME
+		  FROM information_schema.schemata
+		  WHERE SCHEMA_NAME NOT IN ('mysql', 'performance_schema', 'information_schema')
+		`
 )
 
 var (
@@ -59,6 +66,10 @@ var (
 		"exporter.log_slow_filter",
 		"Add a log_slow_filter to avoid slow query logging of scrapes. NOTE: Not supported by Oracle MySQL.",
 	).Default("false").Bool()
+	tableSchemaDatabases = kingpin.Flag(
+		"collect.info_schema.tables.databases",
+		"The list of databases to collect table stats for, or '*' for all",
+	).Default("*").String()
 )
 
 // Metric descriptors.
